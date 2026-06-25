@@ -18,6 +18,41 @@
     --chip-chapter: #1a3825;
     --chip-reply: #4a3060;
     --chip-text: #f2efe8;
+    --bio-bg: rgba(30,58,95,0.06);
+  }
+
+  [data-theme="dark"] {
+    --bg: #18171a;
+    --ink: #e8e4dc;
+    --mid: #9a9288;
+    --rule: #38353a;
+    --accent: #7aa4d0;
+    --chip-article: #2a4f7a;
+    --chip-book: #6b4830;
+    --chip-chapter: #2a5438;
+    --chip-reply: #5a3a70;
+    --chip-text: #e8e4dc;
+    --bio-bg: rgba(122,164,208,0.08);
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; color: #000; padding: 1.5rem; font-size: 11pt; }
+    .controls, .tab-bar, .thematic-index, .media-section,
+    .entry-actions, .dark-toggle, .bio-link, footer { display: none !important; }
+    .page { max-width: 100%; }
+    .entry { page-break-inside: avoid; border-bottom: 0.5pt solid #ccc; padding: 4pt 0; }
+    .title a { color: #000; text-decoration: none; border: none; }
+    .venue { color: #444; }
+    .chip { border: 0.5pt solid #999; color: #333; background: transparent !important; padding: 0.1em 0.4em; font-size: 7pt; }
+    .year { color: #000; }
+    .year-line { background: #ccc; }
+    .abstract-panel.open { display: block; color: #333; font-size: 9pt; border-left: 1.5pt solid #555; }
+    h1 { font-size: 18pt; }
+    .kicker, .dates { color: #555; }
+    .header-rule { border-top-color: #000; }
+    .year-section.hidden { display: block !important; }
+    .entry.hidden { display: block !important; }
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -405,6 +440,117 @@
     line-height: 1.45;
   }
 
+  /* ── Dark mode toggle ── */
+  .dark-toggle {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    padding: 0.3em 0.75em;
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    z-index: 100;
+  }
+  .dark-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Bio ── */
+  .bio-block {
+    background: var(--bio-bg);
+    border-left: 2px solid var(--accent);
+    padding: 1rem 1.1rem;
+    margin-bottom: 1.8rem;
+    border-radius: 0 3px 3px 0;
+  }
+  .bio-block p {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .bio-block p:last-child { margin-bottom: 0; }
+  .bio-link {
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .bio-link:hover { border-bottom-color: var(--accent); }
+
+  /* ── Tabs ── */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1.5px solid var(--rule);
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .tab-btn {
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.55em 1.1em;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px;
+    color: var(--mid);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover { color: var(--accent); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+  /* ── Thematic index ── */
+  .thematic-index { display: none; }
+  .thematic-index.active { display: block; }
+  .chrono-view { display: block; }
+  .chrono-view.hidden-view { display: none; }
+
+  .theme-group { margin-bottom: 2.5rem; }
+
+  .theme-heading {
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.8rem;
+  }
+
+  .theme-desc {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--mid);
+    margin-bottom: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .theme-entry {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 1.2rem;
+    align-items: start;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .theme-entry:last-child { border-bottom: none; }
+
+  .theme-entry .title { font-size: 0.95rem; }
+
   footer {
     margin-top: 3rem;
     padding-top: 1rem;
@@ -420,6 +566,8 @@
 <body>
 <div class="page">
 
+<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">☾ Dark</button>
+
 <header>
   <p class="kicker">Complete Bibliography</p>
   <h1>Harold Demsetz</h1>
@@ -433,8 +581,19 @@
   <hr class="header-rule">
 </header>
 
-<!-- ── Controls ── -->
-<div class="controls">
+<div class="bio-block">
+  <p>Harold Demsetz (1930–2019) was a professor of economics at UCLA and one of the most original microeconomists of the twentieth century. Working within and alongside the Chicago/UCLA price-theory tradition — alongside Armen Alchian, George Stigler, and Ronald Coase — he transformed the economics of property rights, industrial organization, and the theory of the firm. He coined the "nirvana fallacy," the insight that comparing imperfect real institutions to an idealized standard is a logical error; the relevant comparison is always between real alternatives. He communicated almost entirely in words rather than mathematics, a rare distinction among economists of his generation.</p>
+  <p>His institutional home was UCLA, where he spent most of his career and chaired the Economics Department, though he spent a formative decade at the University of Chicago Business School (1963–71). In 2013 he was named a Distinguished Fellow of the American Economic Association. &nbsp;<a class="bio-link" href="https://www.econlib.org/library/Enc/bios/Demsetz.html" target="_blank" rel="noopener">Full biography by David R. Henderson →</a></p>
+</div>
+
+<!-- ── Tabs ── -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="chrono">Chronological</button>
+  <button class="tab-btn" data-tab="thematic">Thematic</button>
+</div>
+
+<!-- ── Controls (chrono only) ── -->
+<div class="controls" id="chronoControls">
   <div class="search-wrap">
     <input type="text" id="search" placeholder="Search titles, venues, keywords…" autocomplete="off">
     <button class="search-clear" id="searchClear" title="Clear">×</button>
@@ -461,6 +620,7 @@
   <div class="results-count" id="resultsCount"></div>
 </div>
 
+<div class="chrono-view" id="chronoView">
 <div class="no-results" id="noResults">No entries match your search.</div>
 
 <!-- ════════════════════════════════════════
@@ -1825,6 +1985,331 @@
 </div>
 </div><!-- /1959 -->
 
+</div><!-- /chrono-view -->
+
+<!-- ════════════════════════════════════════
+     THEMATIC INDEX
+     ════════════════════════════════════════ -->
+<div class="thematic-index" id="thematicIndex">
+
+  <div class="theme-group">
+    <div class="theme-heading">Property Rights &amp; Institutions</div>
+    <div class="theme-desc">The cluster Demsetz is most associated with intellectually. Starting from the cost-benefit logic of property rights emergence, through the relationship between ownership and efficiency in exchange, to a late-career broadening of the framework to collective versus private ownership.</div>
+
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/724917">The Exchange and Enforcement of Property Rights</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1964</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/724993">Some Aspects of Property Rights</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1966 &nbsp;·&nbsp; precursor to the 1967 paper</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/1821637">Toward a Theory of Property Rights</a></div>
+        <div class="venue"><em>American Economic Review</em>, 1967 &nbsp;·&nbsp; AER Top 20</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/725027">The Private Production of Public Goods</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1970</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/2117138">The Property Right Paradigm</a></div>
+        <div class="venue">with Alchian &nbsp;·&nbsp; <em>Journal of Economic History</em>, 1973</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.1086/342028">Toward a Theory of Property Rights II</a></div>
+        <div class="venue"><em>Journal of Legal Studies</em>, 2002 &nbsp;·&nbsp; extends to collective vs. private ownership</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-heading">Theory of the Firm</div>
+    <div class="theme-desc">Demsetz's contributions to why firms exist, how their boundaries are set, and the relationship between ownership structure and governance. The Alchian-Demsetz paper is the most cited in AER history; the 1983 and 1985 papers take the argument empirically.</div>
+
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/1815199">Production, Information Costs, and Economic Organization</a></div>
+        <div class="venue">with Alchian &nbsp;·&nbsp; <em>American Economic Review</em>, 1972 &nbsp;·&nbsp; AER Top 20</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/724091">Wealth Distribution and the Ownership of Rights</a></div>
+        <div class="venue"><em>Journal of Legal Studies</em>, 1972</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/725108">The Structure of Ownership and the Theory of the Firm</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1983</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/1833178">The Structure of Corporate Ownership: Causes and Consequences</a></div>
+        <div class="venue">with Lehn &nbsp;·&nbsp; <em>Journal of Political Economy</em>, 1985</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/765018">The Theory of the Firm Revisited</a></div>
+        <div class="venue"><em>Journal of Law, Economics, and Organization</em>, 1988</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.researchgate.net/publication/36808466_Ownership_Control_and_the_Firm_Vol_1">The Organization of Economic Activity, 2 vols.</a></div>
+        <div class="venue">Blackwell, 1988 &nbsp;·&nbsp; collected essays with intellectual autobiography</div>
+      </div>
+      <span class="chip book">Book</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/2950959">The Firm in Economic Theory: A Quiet Revolution</a></div>
+        <div class="venue"><em>American Economic Review</em>, 1997</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.1016/S0929-1199(01)00020-7">Ownership Structure and Corporate Performance</a></div>
+        <div class="venue">with Villalonga &nbsp;·&nbsp; <em>Journal of Corporate Finance</em>, 2001</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://econpapers.repec.org/bookchap/cupcbooks/9780521588652.htm">The Economics of the Business Firm: Seven Critical Commentaries</a></div>
+        <div class="venue">Cambridge University Press, 1995</div>
+      </div>
+      <span class="chip book">Book</span>
+    </div>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-heading">Industrial Organization &amp; Antitrust</div>
+    <div class="theme-desc">Demsetz's sustained critique of the Bain-era structure-conduct-performance paradigm. The core argument: high concentration often reflects superior efficiency, not monopoly exploitation — and antitrust policy has confused the two.</div>
+
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/1826696">The Nature of Equilibrium in Monopolistic Competition</a></div>
+        <div class="venue"><em>Journal of Political Economy</em>, 1959 &nbsp;·&nbsp; first published article</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.2307/1911285">The Effect of Consumer Experience on Brand Loyalty and the Structure of Market Demand</a></div>
+        <div class="venue"><em>Econometrica</em>, 1962</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.2307/2228300">The Welfare and Empirical Implications of Monopolistic Competition</a></div>
+        <div class="venue"><em>Economic Journal</em>, 1964</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/724822">Industry Structure, Market Rivalry, and Public Policy</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1973 &nbsp;·&nbsp; the UCLA school's defining IO paper</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.researchgate.net/publication/248182928_Two_Systems_of_Belief_about_Monopoly">Two Systems of Belief about Monopoly</a></div>
+        <div class="venue">in <em>Industrial Concentration: The New Learning</em>, 1974</div>
+      </div>
+      <span class="chip chapter">Chapter</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/725174">Economics as a Guide to Antitrust Regulation</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1976</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/2352366">Accounting for Advertising as a Barrier to Entry</a></div>
+        <div class="venue"><em>Journal of Business</em>, 1979</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/1808574">Barriers to Entry</a></div>
+        <div class="venue"><em>American Economic Review</em>, 1982</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.researchgate.net/publication/4821693_Economics_Legal_and_Political_Dimensions_of_Competition">Economic, Legal, and Political Dimensions of Competition</a></div>
+        <div class="venue">North-Holland, 1982 &nbsp;·&nbsp; de Vries Lectures</div>
+      </div>
+      <span class="chip book">Book</span>
+    </div>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-heading">Regulation &amp; Competition for the Market</div>
+    <div class="theme-desc">Demsetz's challenge to natural monopoly doctrine and rate-of-return regulation. The 1968 paper introduces "competition for the market" — franchise bidding — which influenced Williamson, Baumol, and the contestable markets literature.</div>
+
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/724970">Why Regulate Utilities?</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1968 &nbsp;·&nbsp; introduces franchise bidding / competition for the market</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.2307/1882244">The Cost of Transacting</a></div>
+        <div class="venue"><em>Quarterly Journal of Economics</em>, 1968 &nbsp;·&nbsp; founding paper of market microstructure</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/40842725">The Trust upon Which Antitrust Stands</a></div>
+        <div class="venue"><em>Antitrust Law Journal</em>, 1977</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.1111/j.1465-7295.1974.tb00980.x">Where Is the New Industrial State?</a></div>
+        <div class="venue"><em>Economic Inquiry</em>, 1974 &nbsp;·&nbsp; response to Galbraith</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.2307/795012">The Technostructure, Forty-Six Years Later</a></div>
+        <div class="venue">Review of Galbraith &nbsp;·&nbsp; <em>Yale Law Journal</em>, 1968</div>
+      </div>
+      <span class="chip reply">Review</span>
+    </div>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-heading">Externalities &amp; Market Failure</div>
+    <div class="theme-desc">Demsetz's lifelong engagement with Pigou and Coase. His central claim: transaction costs are just another production cost; they cannot ground a special doctrine of market failure. The 2011 papers are his final word on this — written in his eighties.</div>
+
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/724977">Information and Efficiency: Another Viewpoint</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 1969 &nbsp;·&nbsp; introduces the nirvana fallacy</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.1016/S0176-2680(96)00025-0">The Core Disagreement between Pigou, the Profession, and Coase</a></div>
+        <div class="venue"><em>European Journal of Political Economy</em>, 1996</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://lawweb.usc.edu/assets/docs/contribute/Demsetz.pdf">Fallacies in the Economic Doctrine of Externalities</a></div>
+        <div class="venue">Working paper, UCLA, 2009/2010 &nbsp;·&nbsp; extended draft of the 2011 article</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.2202/1555-5879.1502">The Problem of Social Cost: What Problem?</a></div>
+        <div class="venue"><em>Review of Law &amp; Economics</em>, 2011 &nbsp;·&nbsp; last major paper</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.1086/664179">R. H. Coase and the Neoclassical Model of the Economic System</a></div>
+        <div class="venue"><em>Journal of Law and Economics</em>, 2011</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+  </div>
+
+  <div class="theme-group">
+    <div class="theme-heading">Methodology &amp; Intellectual Autobiography</div>
+    <div class="theme-desc">Demsetz's reflections on the discipline — what economics is good at, where it goes wrong, and how he understood his own project.</div>
+
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://scholarship.law.unc.edu/nclr/vol43/iss2/3/">Minorities in the Marketplace</a></div>
+        <div class="venue"><em>North Carolina Law Review</em>, 1965 &nbsp;·&nbsp; applies price theory to racial discrimination</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://doi.org/10.1111/j.1465-7295.1997.tb01890.x">The Primacy of Economics</a></div>
+        <div class="venue"><em>Economic Inquiry</em>, 1997 &nbsp;·&nbsp; Presidential Address</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.cambridge.org/core/books/from-economic-man-to-economic-system/3C82D0A7D728DDE8B8689EA3D3A73791">From Economic Man to Economic System</a></div>
+        <div class="venue">Cambridge University Press, 2008 &nbsp;·&nbsp; final book</div>
+      </div>
+      <span class="chip book">Book</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/40657721">Succeeding in Economics</a></div>
+        <div class="venue"><em>The American Economist</em>, 2008</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/2138595">George J. Stigler: Midcentury Neoclassicalist with a Passion to Quantify</a></div>
+        <div class="venue"><em>Journal of Political Economy</em>, 1993 &nbsp;·&nbsp; portrait of a colleague</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+    <div class="theme-entry">
+      <div>
+        <div class="title"><a href="https://www.jstor.org/stable/40750949">An Appreciation of Armen A. Alchian's Contribution to the Theory of the Firm</a></div>
+        <div class="venue"><em>JITE</em>, 1987</div>
+      </div>
+      <span class="chip article">Article</span>
+    </div>
+  </div>
+
+</div><!-- /thematic-index -->
+
 <!-- ── MEDIA ── -->
 <div class="media-section">
   <div class="year-bar"><span class="year">Media</span><span class="year-line"></span></div>
@@ -1867,6 +2352,47 @@
 <script>
 (function() {
 
+  // ── Dark mode ──
+  const toggle = document.getElementById('darkToggle');
+  const saved = localStorage.getItem('demsetz-theme');
+  if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); toggle.textContent = '☀ Light'; }
+
+  toggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      toggle.textContent = '☾ Dark';
+      localStorage.setItem('demsetz-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      toggle.textContent = '☀ Light';
+      localStorage.setItem('demsetz-theme', 'dark');
+    }
+  });
+
+  // ── Tabs ──
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const chronoView = document.getElementById('chronoView');
+  const chronoControls = document.getElementById('chronoControls');
+  const thematicIndex = document.getElementById('thematicIndex');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.tab;
+      if (tab === 'chrono') {
+        chronoView.classList.remove('hidden-view');
+        chronoControls.style.display = '';
+        thematicIndex.classList.remove('active');
+      } else {
+        chronoView.classList.add('hidden-view');
+        chronoControls.style.display = 'none';
+        thematicIndex.classList.add('active');
+      }
+    });
+  });
+
   // ── State ──
   let activeType = 'all';
   let activeDecade = 'all';
@@ -1908,26 +2434,16 @@
       const entry = btn.closest('.entry');
       const cite = entry.dataset.cite || '';
       if (!cite) return;
-      navigator.clipboard.writeText(cite).then(() => {
-        btn.textContent = 'Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = 'Cite';
-          btn.classList.remove('copied');
-        }, 1800);
-      }).catch(() => {
-        // fallback
-        const ta = document.createElement('textarea');
-        ta.value = cite;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
+      const doCopy = () => {
         btn.textContent = 'Copied!';
         btn.classList.add('copied');
         setTimeout(() => { btn.textContent = 'Cite'; btn.classList.remove('copied'); }, 1800);
+      };
+      navigator.clipboard.writeText(cite).then(doCopy).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = cite; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta); doCopy();
       });
     });
   });
@@ -1940,10 +2456,8 @@
     document.querySelectorAll('.entry').forEach(entry => {
       const type = entry.dataset.type || '';
       const year = parseInt(entry.dataset.year || '0');
-
       const typeOk = activeType === 'all' || type === activeType;
       const decadeOk = activeDecade === 'all' || (decadeMap[activeDecade] && decadeMap[activeDecade](year));
-
       let searchOk = true;
       if (q) {
         const text = (entry.textContent || '').toLowerCase();
@@ -1951,19 +2465,16 @@
         const cite = (entry.dataset.cite || '').toLowerCase();
         searchOk = text.includes(q) || abstract.includes(q) || cite.includes(q);
       }
-
       const show = typeOk && decadeOk && searchOk;
       entry.classList.toggle('hidden', !show);
       if (show) visible++;
     });
 
-    // Show/hide year sections
     document.querySelectorAll('.year-section').forEach(section => {
       const hasVisible = section.querySelector('.entry:not(.hidden)');
       section.classList.toggle('hidden', !hasVisible);
     });
 
-    // Count
     const countEl = document.getElementById('resultsCount');
     const total = document.querySelectorAll('.entry').length;
     if (q || activeType !== 'all' || activeDecade !== 'all') {
@@ -1972,7 +2483,6 @@
       countEl.textContent = '';
     }
 
-    // No results
     document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
   }
 
@@ -1987,11 +2497,9 @@
   });
 
   searchClear.addEventListener('click', () => {
-    searchInput.value = '';
-    searchQuery = '';
+    searchInput.value = ''; searchQuery = '';
     searchClear.style.display = 'none';
-    searchInput.focus();
-    applyFilters();
+    searchInput.focus(); applyFilters();
   });
 
   // ── Type filters ──
