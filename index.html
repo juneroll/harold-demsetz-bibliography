@@ -2541,9 +2541,7 @@
     });
   }
  
-  drawChart();
-  // Redraw on dark mode toggle and resize
-  document.getElementById('darkToggle').addEventListener('click', () => setTimeout(drawChart, 50));
+  window.addEventListener('load', drawChart);
   window.addEventListener('resize', drawChart);
 
   // ── Dark mode ──
