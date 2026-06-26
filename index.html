@@ -2442,6 +2442,144 @@
 <script>
 (function() {
 
+   // ── Citation chart ──
+  const citData = [
+    {y:1987,c:48},{y:1988,c:76},{y:1989,c:120},{y:1990,c:165},{y:1991,c:210},
+    {y:1992,c:263},{y:1993,c:320},{y:1994,c:380},{y:1995,c:430},{y:1996,c:484},
+    {y:1997,c:530},{y:1998,c:590},{y:1999,c:675},{y:2000,c:810},{y:2001,c:983},
+    {y:2002,c:1074},{y:2003,c:1180},{y:2004,c:1290},{y:2005,c:1358},{y:2006,c:1520},
+    {y:2007,c:1737},{y:2008,c:1793},{y:2009,c:2052},{y:2010,c:2303},{y:2011,c:2492},
+    {y:2012,c:2777},{y:2013,c:2927},{y:2014,c:3256},{y:2015,c:3201},{y:2016,c:3260},
+    {y:2017,c:3402},{y:2018,c:3422},{y:2019,c:3553},{y:2020,c:4106},{y:2021,c:3483},
+    {y:2022,c:3654},{y:2023,c:3455},{y:2024,c:3266},{y:2025,c:2979}
+  ];
+ 
+  function drawChart() {
+    const wrap = document.getElementById('chartWrap');
+    const svg = document.getElementById('citationChart');
+    const tooltip = document.getElementById('chartTooltip');
+    const W = wrap.clientWidth, H = 160;
+    const pad = { top: 12, right: 8, bottom: 24, left: 38 };
+    const iW = W - pad.left - pad.right;
+    const iH = H - pad.top - pad.bottom;
+ 
+    const maxC = Math.max(...citData.map(d => d.c));
+    const minY = citData[0].y, maxY = citData[citData.length - 1].y;
+    const deathYear = 2019;
+ 
+    const xScale = y => pad.left + ((y - minY) / (maxY - minY)) * iW;
+    const yScale = c => pad.top + iH - (c / maxC) * iH;
+ 
+    // Accent color from CSS var — read computed style
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#1e3a5f';
+    const mid = getComputedStyle(document.documentElement).getPropertyValue('--mid').trim() || '#6b6558';
+    const rule = getComputedStyle(document.documentElement).getPropertyValue('--rule').trim() || '#ccc8bd';
+    const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#1c1b18';
+    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f2efe8';
+ 
+    // Build path
+    const points = citData.map(d => `${xScale(d.y)},${yScale(d.c)}`).join(' ');
+    const areaPoints = `${xScale(minY)},${pad.top + iH} ` + points + ` ${xScale(maxY)},${pad.top + iH}`;
+ 
+    // Y gridlines
+    const ticks = [1000, 2000, 3000, 4000];
+    let gridLines = ticks.filter(t => t <= maxC).map(t =>
+      `<line x1="${pad.left}" y1="${yScale(t)}" x2="${pad.left + iW}" y2="${yScale(t)}"
+        stroke="${rule}" stroke-width="1"/>`
+    ).join('');
+ 
+    // Y axis labels
+    let yLabels = ticks.filter(t => t <= maxC).map(t =>
+      `<text x="${pad.left - 5}" y="${yScale(t) + 4}" text-anchor="end"
+        font-family="monospace" font-size="8" fill="${mid}">${(t/1000).toFixed(0)}k</text>`
+    ).join('');
+ 
+    // X axis labels — every 5 years
+    let xLabels = citData.filter(d => d.y % 5 === 0).map(d =>
+      `<text x="${xScale(d.y)}" y="${pad.top + iH + 14}" text-anchor="middle"
+        font-family="monospace" font-size="8" fill="${mid}">${d.y}</text>`
+    ).join('');
+ 
+    // Death line
+    const dx = xScale(deathYear);
+    const deathLine = `
+      <line x1="${dx}" y1="${pad.top}" x2="${dx}" y2="${pad.top + iH}"
+        stroke="${mid}" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="${dx + 3}" y="${pad.top + 9}" font-family="monospace" font-size="7.5" fill="${mid}">d. 2019</text>
+    `;
+ 
+    // Invisible hit targets for tooltip
+    const hitRects = citData.map((d, i) => {
+      const x = xScale(d.y);
+      const barW = i < citData.length - 1 ? xScale(citData[i+1].y) - x : iW / citData.length;
+      return `<rect x="${x - barW/2}" y="${pad.top}" width="${barW}" height="${iH}"
+        fill="transparent"
+        data-year="${d.y}" data-count="${d.c.toLocaleString()}"
+        class="chart-hit"/>`;
+    }).join('');
+ 
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.innerHTML = `
+      ${gridLines}
+      <polyline points="${areaPoints}" fill="${accent}" opacity="0.12"/>
+      <polyline points="${points}" fill="none" stroke="${accent}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+      ${deathLine}
+      ${yLabels}
+      ${xLabels}
+      ${hitRects}
+    `;
+ 
+    // Tooltip
+    svg.querySelectorAll('.chart-hit').forEach(rect => {
+      rect.addEventListener('mousemove', e => {
+        const svgRect = svg.getBoundingClientRect();
+        const x = e.clientX - svgRect.left;
+        const y = parseFloat(rect.getAttribute('y'));
+        const year = rect.getAttribute('data-year');
+        const count = rect.getAttribute('data-count');
+        tooltip.textContent = `${year} · ${count} citations`;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = (yScale(parseInt(rect.getAttribute('data-count').replace(',',''))) - 6) + 'px';
+        tooltip.style.opacity = '1';
+      });
+      rect.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+    });
+  }
+ 
+  drawChart();
+  // Redraw on dark mode toggle and resize
+  document.getElementById('darkToggle').addEventListener('click', () => setTimeout(drawChart, 50));
+  window.addEventListener('resize', drawChart);
+ 
+  // ── Share button ──
+  const shareBtn = document.getElementById('shareBtn');
+  shareBtn.addEventListener('click', () => {
+    const url = window.location.href.split('?')[0].split('#')[0];
+    navigator.clipboard.writeText(url).then(() => {
+      shareBtn.textContent = '✓ Copied!';
+      shareBtn.classList.add('copied');
+      setTimeout(() => {
+        shareBtn.textContent = '⬡ Copy link';
+        shareBtn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      shareBtn.textContent = '✓ Copied!';
+      shareBtn.classList.add('copied');
+      setTimeout(() => {
+        shareBtn.textContent = '⬡ Copy link';
+        shareBtn.classList.remove('copied');
+      }, 2000);
+    });
+  });
+
   // ── Dark mode ──
   const toggle = document.getElementById('darkToggle');
   const saved = localStorage.getItem('demsetz-theme');
