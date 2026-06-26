@@ -2545,35 +2545,6 @@
   // Redraw on dark mode toggle and resize
   document.getElementById('darkToggle').addEventListener('click', () => setTimeout(drawChart, 50));
   window.addEventListener('resize', drawChart);
- 
-  // ── Share button ──
-  const shareBtn = document.getElementById('shareBtn');
-  shareBtn.addEventListener('click', () => {
-    const url = window.location.href.split('?')[0].split('#')[0];
-    navigator.clipboard.writeText(url).then(() => {
-      shareBtn.textContent = '✓ Copied!';
-      shareBtn.classList.add('copied');
-      setTimeout(() => {
-        shareBtn.textContent = '⬡ Copy link';
-        shareBtn.classList.remove('copied');
-      }, 2000);
-    }).catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = url;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      shareBtn.textContent = '✓ Copied!';
-      shareBtn.classList.add('copied');
-      setTimeout(() => {
-        shareBtn.textContent = '⬡ Copy link';
-        shareBtn.classList.remove('copied');
-      }, 2000);
-    });
-  });
 
   // ── Dark mode ──
   const toggle = document.getElementById('darkToggle');
