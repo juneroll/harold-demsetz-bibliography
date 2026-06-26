@@ -551,6 +551,65 @@
 
   .theme-entry .title { font-size: 0.95rem; }
 
+/* ── Impact section ── */
+.impact-section { margin-top: 3.5rem; }
+
+.impact-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 600px) {
+  .impact-layout { grid-template-columns: 1fr; }
+}
+
+.impact-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.stat-card {
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.6rem 0.8rem;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-top: 0.15rem;
+}
+
+.stat-source {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  margin-top: 0.2rem;
+}
+
+.impact-chart .chart-label {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.6rem;
+}
+  
   footer {
     margin-top: 3rem;
     padding-top: 1rem;
@@ -580,6 +639,11 @@
   </div>
   <hr class="header-rule">
 </header>
+  
+  <div class="portrait-wrap">
+  <img src="demsetz.jpg" alt="Harold Demsetz" onerror="this.style.display='none'">
+  <div class="portrait-caption">Harold Demsetz</div>
+</div>
 
 <div class="bio-block">
   <p>Harold Demsetz made major contributions to the economics of property rights and to the economics of industrial organization. He also coined the term “the Nirvana approach.” Economists have altered it slightly but use it widely. Demsetz was one of the few top economists of his era to communicate almost entirely in words and not math. Demsetz also defended both economic freedom and civil liberties.</p>
@@ -2321,10 +2385,47 @@
     </a>
   </div>
 
+<!-- ── Impact section ── -->
+<div class="impact-section">
+  <div class="year-bar"><span class="year">Impact</span><span class="year-line"></span></div>
+
+  <div class="impact-layout">
+    <div class="impact-stats">
+      <div class="stat-card">
+        <div class="stat-value">92,380</div>
+        <div class="stat-label">Total citations</div>
+        <div class="stat-source">Google Scholar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">18,000+</div>
+        <div class="stat-label">Citations · Alchian &amp; Demsetz (1972)</div>
+        <div class="stat-source">Most cited paper</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">10</div>
+        <div class="stat-label">Papers cited 2,000+ times</div>
+        <div class="stat-source">Top decile</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4,106</div>
+        <div class="stat-label">Peak year citations</div>
+        <div class="stat-source">2020 — year after death</div>
+      </div>
+    </div>
+
+    <div class="impact-chart">
+      <div class="chart-label">Citations per year · Google Scholar</div>
+      <div class="chart-wrap" id="chartWrap">
+        <svg id="citationChart"></svg>
+        <div class="chart-tooltip" id="chartTooltip"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer>
   Sources: IDEAS/RePEC · EconPapers · ResearchGate · SSRN · JSTOR · Chicago Unbound · UNC Scholarship Repository · Wikipedia · Compiled June 2026.
 </footer>
-
 </div>
 
 <script>
