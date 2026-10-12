@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Harold Demsetz — Complete Bibliography</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inconsolata:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Libre+Baskerville:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
+  /* ── Original colour scheme ── */
   :root {
     --bg: #f2efe8;
     --ink: #1c1b18;
@@ -19,6 +20,21 @@
     --chip-reply: #4a3060;
     --chip-text: #f2efe8;
     --bio-bg: rgba(30,58,95,0.06);
+
+    /* surfaces for the layout, drawn from the same palette */
+    --panel: #faf8f4;
+    --rail-bg: #e7e2d7;
+    --masthead-bg: #1e3a5f;
+    --on-masthead: #f2efe8;
+    --on-masthead-muted: rgba(242,239,232,0.72);
+    --on-masthead-rule: rgba(242,239,232,0.22);
+    --on-accent: #f2efe8;
+    --abstract-bg: rgba(30,58,95,0.05);
+
+    --display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+    --text: 'Libre Baskerville', 'Baskerville', 'Baskerville Old Face', Georgia, serif;
+    --wrap: 1240px;
+    --rail: 280px;
   }
 
   [data-theme="dark"] {
@@ -33,120 +49,204 @@
     --chip-reply: #5a3a70;
     --chip-text: #e8e4dc;
     --bio-bg: rgba(122,164,208,0.08);
-  }
 
-  /* ── Print ── */
-  @media print {
-    body { background: #fff; color: #000; padding: 1.5rem; font-size: 11pt; }
-    .controls, .tab-bar, .thematic-index, .media-section,
-    .entry-actions, .dark-toggle, .bio-link, footer { display: none !important; }
-    .page { max-width: 100%; }
-    .entry { page-break-inside: avoid; border-bottom: 0.5pt solid #ccc; padding: 4pt 0; }
-    .title a { color: #000; text-decoration: none; border: none; }
-    .venue { color: #444; }
-    .chip { border: 0.5pt solid #999; color: #333; background: transparent !important; padding: 0.1em 0.4em; font-size: 7pt; }
-    .year { color: #000; }
-    .year-line { background: #ccc; }
-    .abstract-panel.open { display: block; color: #333; font-size: 9pt; border-left: 1.5pt solid #555; }
-    h1 { font-size: 18pt; }
-    .kicker, .dates { color: #555; }
-    .header-rule { border-top-color: #000; }
-    .year-section.hidden { display: block !important; }
-    .entry.hidden { display: block !important; }
+    --panel: #1f1e22;
+    --rail-bg: #222025;
+    --masthead-bg: #1b2c42;
+    --on-masthead: #e8e4dc;
+    --on-masthead-muted: rgba(232,228,220,0.7);
+    --on-masthead-rule: rgba(232,228,220,0.2);
+    --on-accent: #18171a;
+    --abstract-bg: rgba(122,164,208,0.08);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html { scroll-behavior: smooth; }
+
   body {
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Spectral', Georgia, serif;
-    font-size: 17px;
+    font-family: var(--text);
+    font-size: 16px;
     line-height: 1.7;
-    padding: 4rem 1.5rem 6rem;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .page { max-width: 720px; margin: 0 auto; }
+  ::selection { background: var(--accent); color: var(--on-accent); }
 
-  header { margin-bottom: 2rem; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .masthead :focus-visible { outline-color: var(--on-masthead); }
+
+  /* ── Masthead ── */
+  .masthead { background: var(--masthead-bg); color: var(--on-masthead); }
+
+  .masthead-inner {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 4.75rem 2rem 3.25rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: end;
+  }
 
   .kicker {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--mid);
+    font-family: var(--text);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--on-masthead-muted);
     margin-bottom: 0.6rem;
   }
 
   h1 {
-    font-size: 2.4rem;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    margin-bottom: 0.3rem;
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: clamp(3.2rem, 6.6vw, 5.75rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
   }
 
   .dates {
+    font-family: var(--display);
     font-style: italic;
-    color: var(--mid);
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+    font-size: 1.45rem;
+    color: var(--on-masthead-muted);
+    margin: 0.75rem 0 1.6rem;
   }
 
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.2rem;
-    margin-top: 0.8rem;
+  .bio-block p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--on-masthead);
+    max-width: 58ch;
+    margin-bottom: 0.7rem;
+  }
+  .bio-block p:last-child { margin-bottom: 0; }
+
+  .bio-link {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--on-masthead);
+    text-decoration: underline;
+    text-decoration-color: var(--on-masthead-rule);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s;
+  }
+  .bio-link:hover { text-decoration-color: var(--on-masthead); }
+
+  /* ── Impact (inside masthead) ── */
+  .chart-label {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--on-masthead-muted);
     margin-bottom: 0.4rem;
   }
 
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.65rem;
-    color: var(--mid);
-    letter-spacing: 0.05em;
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    --chart-line: var(--on-masthead);
+    --chart-text: var(--on-masthead-muted);
+    --chart-grid: var(--on-masthead-rule);
   }
 
-  .legend-chip {
-    display: inline-block;
-    width: 10px; height: 10px;
+  .chart-wrap svg { width: 100%; height: 100%; overflow: visible; display: block; }
+
+  .chart-tooltip {
+    position: absolute;
+    top: 0; left: 0;
+    transform: translate(-50%, -100%);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 0.72rem;
+    padding: 0.3rem 0.55rem;
     border-radius: 2px;
-    flex-shrink: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
   }
 
-  .header-rule { margin-top: 1.2rem; border: none; border-top: 1.5px solid var(--ink); }
-
-  /* ── Controls ── */
-  .controls {
-    margin: 1.5rem 0 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  .impact-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.6rem;
   }
+
+  .stat-card { border-top: 1px solid var(--on-masthead-rule); padding-top: 0.7rem; }
+
+  .stat-value {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.05;
+    color: var(--on-masthead);
+    font-variant-numeric: lining-nums;
+  }
+
+  .stat-label {
+    font-size: 0.74rem;
+    line-height: 1.45;
+    color: var(--on-masthead);
+    margin-top: 0.35rem;
+  }
+
+  .stat-source {
+    font-style: italic;
+    font-size: 0.7rem;
+    color: var(--on-masthead-muted);
+    margin-top: 0.15rem;
+  }
+
+  /* ── Two-column layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: max(var(--rail), calc((100% - var(--wrap)) / 2 + var(--rail))) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .rail { background: var(--rail-bg); border-right: 1px solid var(--rule); }
+
+  .rail-inner {
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow-y: auto;
+    width: var(--rail);
+    margin-left: auto;
+    padding: 2.25rem 1.75rem 2.5rem 2rem;
+  }
+
+  .main {
+    padding: 2.5rem 3rem 4.5rem;
+    max-width: calc(var(--wrap) - var(--rail));
+  }
+
+  /* ── Rail controls ── */
+  .controls { display: flex; flex-direction: column; gap: 1.6rem; }
 
   .search-wrap { position: relative; }
 
   .search-wrap input {
     width: 100%;
-    font-family: 'Inconsolata', monospace;
+    font-family: var(--text);
     font-size: 0.82rem;
-    padding: 0.55rem 2.2rem 0.55rem 0.8rem;
-    background: var(--bg);
+    padding: 0.65rem 2.2rem 0.65rem 0.8rem;
+    background: var(--panel);
     border: 1px solid var(--rule);
     border-radius: 3px;
     color: var(--ink);
     outline: none;
     transition: border-color 0.15s;
   }
-
   .search-wrap input:focus { border-color: var(--accent); }
-
-  .search-wrap input::placeholder { color: var(--mid); }
+  .search-wrap input::placeholder { color: var(--mid); font-style: italic; }
 
   .search-clear {
     position: absolute;
@@ -155,24 +255,28 @@
     background: none; border: none;
     cursor: pointer;
     color: var(--mid);
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1;
     display: none;
-    padding: 0;
+    padding: 0.1rem 0.2rem;
+  }
+  .search-clear:hover { color: var(--ink); }
+
+  .filter-label {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
   }
 
-  .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
   .filter-btn {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.28em 0.7em;
+    font-family: var(--text);
+    font-size: 0.74rem;
+    padding: 0.3rem 0.65rem;
     border: 1px solid var(--rule);
     border-radius: 2px;
     background: transparent;
@@ -180,143 +284,41 @@
     cursor: pointer;
     transition: background 0.12s, color 0.12s, border-color 0.12s;
   }
-
   .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .filter-btn.active { background: var(--accent); color: var(--chip-text); border-color: var(--accent); }
-  .filter-btn.decade.active { background: var(--chip-chapter); border-color: var(--chip-chapter); }
+  .filter-btn.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .filter-btn.decade.active { background: var(--chip-chapter); border-color: var(--chip-chapter); color: var(--chip-text); }
 
   .results-count {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.65rem;
+    font-style: italic;
+    font-size: 0.8rem;
     color: var(--mid);
-    letter-spacing: 0.05em;
     min-height: 1.2em;
   }
 
-  /* ── Year sections ── */
-  .year-bar {
+  /* ── Legend ── */
+  .legend {
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 1.6rem 0 0.8rem;
-  }
-
-  .year-section { }
-  .year-section.hidden { display: none; }
-
-  .year {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    color: var(--accent);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .year-line { flex: 1; height: 1px; background: var(--rule); }
-
-  /* ── Entry ── */
-  .entry {
-    padding: 0.8rem 0;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    margin-bottom: 1.9rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid var(--rule);
   }
 
-  .entry.hidden { display: none; }
-  .entry:last-child { border-bottom: none; }
-
-  .entry-top {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 1.2rem;
-    align-items: start;
-  }
-
-  .title {
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.35;
-    margin-bottom: 0.2rem;
-  }
-
-  .title a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule);
-    transition: border-color 0.15s, color 0.15s;
-  }
-
-  .title a:hover { border-bottom-color: var(--accent); color: var(--accent); }
-
-  .venue {
-    font-size: 0.87rem;
-    font-style: italic;
-    color: var(--mid);
-    line-height: 1.45;
-  }
-
-  /* ── Entry actions ── */
-  .entry-actions {
+  .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.45rem;
-  }
-
-  .btn-abstract, .btn-copy {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.22em 0.6em;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    background: transparent;
+    gap: 0.45rem;
+    font-size: 0.78rem;
     color: var(--mid);
-    cursor: pointer;
-    transition: background 0.12s, color 0.12s, border-color 0.12s;
   }
 
-  .btn-abstract:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-abstract.open { background: var(--accent); color: var(--chip-text); border-color: var(--accent); }
+  .legend-chip { display: inline-block; width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+  .legend-chip.article { background: var(--chip-article); }
+  .legend-chip.book    { background: var(--chip-book); }
+  .legend-chip.chapter { background: var(--chip-chapter); }
+  .legend-chip.reply   { background: var(--chip-reply); }
 
-  .btn-copy:hover { border-color: var(--chip-chapter); color: var(--chip-chapter); }
-  .btn-copy.copied { background: var(--chip-chapter); color: var(--chip-text); border-color: var(--chip-chapter); }
-
-  /* ── Abstract panel ── */
-  .abstract-panel {
-    display: none;
-    margin-top: 0.6rem;
-    padding: 0.7rem 0.9rem;
-    background: rgba(30,58,95,0.05);
-    border-left: 2px solid var(--accent);
-    font-size: 0.88rem;
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  .abstract-panel.open { display: block; }
-
-  /* ── Chip ── */
-  .chip {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--chip-text);
-    padding: 0.22em 0.55em;
-    border-radius: 2px;
-    white-space: nowrap;
-    margin-top: 0.18rem;
-  }
-
-  .chip.article { background: var(--chip-article); }
-  .chip.book    { background: var(--chip-book); }
-  .chip.chapter { background: var(--chip-chapter); }
-  .chip.reply   { background: var(--chip-reply); }
-
-  /* ── No results ── */
   .no-results {
     display: none;
     padding: 2rem 0;
@@ -325,27 +327,148 @@
     font-size: 0.95rem;
   }
 
-  /* ── Media section ── */
-  .media-section { margin-top: 3.5rem; }
+  /* ── Year sections: numeral in a sticky left gutter ── */
+  .year-section { position: relative; padding-left: 100px; margin-bottom: 1.6rem; }
+  .year-section.hidden { display: none; }
 
-  .media-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-    margin-top: 1rem;
+  .year-section > .year-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 100px;
   }
 
-  @media (max-width: 560px) { .media-grid { grid-template-columns: 1fr; } }
+  .year-section .year {
+    position: sticky;
+    top: 1.25rem;
+    display: block;
+    padding-top: 0.75rem;
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: 2.1rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--accent);
+    font-variant-numeric: lining-nums;
+  }
+
+  .year-section .year-line { display: none; }
+
+  /* ── Entry ── */
+  .entry {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    margin-top: -1px;
+    padding: 1.15rem 1.35rem;
+  }
+  .entry.hidden { display: none; }
+
+  .entry-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 1.25rem;
+    align-items: start;
+  }
+
+  .title {
+    font-family: var(--text);
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .title a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+  .title a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+  .venue {
+    font-size: 0.8rem;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-top: 0.3rem;
+  }
+  .venue em { font-style: italic; }
+
+  .chip {
+    font-family: var(--text);
+    font-size: 0.66rem;
+    letter-spacing: 0.02em;
+    color: var(--chip-text);
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    margin-top: 0.15rem;
+  }
+  .chip.article { background: var(--chip-article); }
+  .chip.book    { background: var(--chip-book); }
+  .chip.chapter { background: var(--chip-chapter); }
+  .chip.reply   { background: var(--chip-reply); }
+
+  .entry-actions { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.7rem; }
+
+  .btn-abstract, .btn-copy {
+    font-family: var(--text);
+    font-size: 0.72rem;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--mid);
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .btn-abstract:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-abstract.open { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .btn-copy:hover { border-color: var(--chip-chapter); color: var(--chip-chapter); }
+  .btn-copy.copied { background: var(--chip-chapter); color: var(--chip-text); border-color: var(--chip-chapter); }
+
+  .abstract-panel {
+    display: none;
+    margin-top: 0.85rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--abstract-bg);
+    border-left: 2px solid var(--accent);
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--ink);
+    max-width: 70ch;
+  }
+  .abstract-panel.open { display: block; }
+
+  /* ── Media ── */
+  .media-section { margin-top: 3.75rem; }
+
+  .media-section > .year-bar {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+  }
+  .media-section .year {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: 2.1rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .media-section .year-line { flex: 1; height: 1px; background: var(--rule); }
+
+  .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 
   .media-card {
+    display: block;
+    background: var(--panel);
     border: 1px solid var(--rule);
     border-radius: 3px;
     overflow: hidden;
     text-decoration: none;
-    display: block;
     transition: border-color 0.15s;
   }
-
   .media-card:hover { border-color: var(--accent); }
 
   .media-thumb {
@@ -356,338 +479,200 @@
     background: #1a1a18;
   }
 
-  .media-info {
-    padding: 0.65rem 0.8rem 0.75rem;
-    background: var(--bg);
-    border-top: 1px solid var(--rule);
-  }
-
-  .media-title {
-    font-size: 0.88rem;
-    font-weight: 600;
-    line-height: 1.3;
-    margin-bottom: 0.15rem;
-    color: var(--ink);
-  }
-
-  .media-sub {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.63rem;
-    color: var(--mid);
-    letter-spacing: 0.04em;
-    line-height: 1.5;
-  }
+  .media-info { padding: 0.9rem 1rem 1rem; border-top: 1px solid var(--rule); }
 
   .yt-badge {
     display: inline-block;
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.58rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
     color: #fff;
     background: #c00;
-    padding: 0.18em 0.5em;
+    padding: 0.12rem 0.45rem;
     border-radius: 2px;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.45rem;
   }
 
-  .pdf-card {
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    padding: 0.9rem 1rem;
-    margin-top: 1.2rem;
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-
-  .pdf-icon {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--chip-text);
-    background: #8b1a1a;
-    padding: 0.3em 0.6em;
-    border-radius: 2px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  .pdf-info .pdf-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.3;
+  .media-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ink);
     margin-bottom: 0.2rem;
   }
 
-  .pdf-info .pdf-title a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule);
-    transition: border-color 0.15s, color 0.15s;
-  }
+  .media-sub { font-size: 0.76rem; font-style: italic; color: var(--mid); line-height: 1.5; }
 
-  .pdf-info .pdf-title a:hover { border-bottom-color: var(--accent); color: var(--accent); }
-
-  .pdf-info .pdf-sub {
-    font-size: 0.82rem;
+  /* ── Footer ── */
+  footer { background: var(--rail-bg); border-top: 1px solid var(--rule); color: var(--mid); }
+  .footer-inner {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 1.75rem 2rem;
+    font-size: 0.74rem;
     font-style: italic;
-    color: var(--mid);
-    line-height: 1.45;
+    line-height: 1.8;
   }
 
   /* ── Dark mode toggle ── */
   .dark-toggle {
     position: fixed;
-    top: 1.2rem;
-    right: 1.2rem;
-    background: var(--bg);
-    border: 1px solid var(--rule);
-    border-radius: 20px;
-    padding: 0.3em 0.75em;
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--mid);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    top: 1rem;
+    right: 1rem;
     z-index: 100;
+    font-family: var(--text);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    background: var(--bg);
+    color: var(--mid);
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
   }
   .dark-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ── Bio ── */
-  .bio-block {
-    background: var(--bio-bg);
-    border-left: 2px solid var(--accent);
-    padding: 1rem 1.1rem;
-    margin-bottom: 1.8rem;
-    border-radius: 0 3px 3px 0;
-  }
-  .bio-block p {
-    font-size: 0.92rem;
-    line-height: 1.65;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-  }
-  .bio-block p:last-child { margin-bottom: 0; }
-  .bio-link {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.15s;
-  }
-  .bio-link:hover { border-bottom-color: var(--accent); }
-
-  /* ── Tabs ── */
-  .tab-bar {
-    display: flex;
-    gap: 0;
-    border-bottom: 1.5px solid var(--rule);
-    margin-bottom: 1.5rem;
-    margin-top: 0.5rem;
-  }
-  .tab-btn {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.55em 1.1em;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1.5px;
-    color: var(--mid);
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-  }
-  .tab-btn:hover { color: var(--accent); }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
-
-  /* ── Thematic index ── */
-  .thematic-index { display: none; }
-  .thematic-index.active { display: block; }
-  .chrono-view { display: block; }
-  .chrono-view.hidden-view { display: none; }
-
-  .theme-group { margin-bottom: 2.5rem; }
-
-  .theme-heading {
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 0.8rem;
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .masthead-inner { grid-template-columns: 1fr; gap: 2.5rem; padding: 4.25rem 1.5rem 2.5rem; }
+    .layout { grid-template-columns: 1fr; }
+    .rail { border-right: none; border-bottom: 1px solid var(--rule); }
+    .rail-inner { position: static; width: auto; max-height: none; margin: 0; padding: 1.75rem 1.5rem; }
+    .main { padding: 2rem 1.5rem 3.5rem; max-width: none; }
   }
 
-  .theme-desc {
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--mid);
-    margin-bottom: 0.9rem;
-    line-height: 1.55;
+  @media (max-width: 640px) {
+    body { font-size: 15px; }
+    .impact-stats { grid-template-columns: 1fr 1fr; }
+    .year-section { padding-left: 0; }
+    .year-section > .year-bar { position: static; width: auto; margin-bottom: 0.6rem; }
+    .year-section .year { position: static; padding-top: 0; font-size: 1.8rem; }
+    .entry { padding: 1rem 1.1rem; }
+    .media-grid { grid-template-columns: 1fr; }
   }
 
-  .theme-entry {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 1.2rem;
-    align-items: start;
-    padding: 0.65rem 0;
-    border-bottom: 1px solid var(--rule);
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; }
   }
-  .theme-entry:last-child { border-bottom: none; }
 
-  .theme-entry .title { font-size: 0.95rem; }
-
-.impact-section { margin-top: 3.5rem; }
-
-.impact-layout {
-  display: grid;
-  grid-template-columns: 175px 1fr;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  align-items: start;
-}
-
-@media (max-width: 600px) {
-  .impact-layout { grid-template-columns: 1fr; }
-}
-
-.impact-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-}
-
-.stat-card {
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  padding: 0.55rem 0.75rem;
-}
-
-.stat-value {
-  font-size: 1.35rem;
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  color: var(--accent);
-  line-height: 1.1;
-}
-
-.stat-label {
-  font-size: 0.75rem;
-  color: var(--ink);
-  line-height: 1.3;
-  margin-top: 0.12rem;
-}
-
-.stat-source {
-  font-family: 'Inconsolata', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.06em;
-  color: var(--mid);
-  margin-top: 0.18rem;
-}
-
-.impact-chart .chart-label {
-  font-family: 'Inconsolata', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--mid);
-  margin-bottom: 0.6rem;
-}
-
-.impact-chart .chart-wrap {
-  position: relative;
-  width: 100%;
-  height: 160px;
-}
-
-.impact-chart .chart-wrap svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-  
-  footer {
-    margin-top: 3rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--rule);
-    font-family: 'Inconsolata', monospace;
-    font-size: 0.65rem;
-    color: var(--mid);
-    letter-spacing: 0.06em;
-    line-height: 1.8;
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    .rail, .legend, .media-section, .impact-section,
+    .entry-actions, .dark-toggle, .bio-link, footer { display: none !important; }
+    .masthead { background: none; color: #000; }
+    .masthead-inner { display: block; padding: 0 0 12pt; }
+    .kicker, .dates { color: #555; }
+    .bio-block p { color: #000; }
+    .layout { display: block; }
+    .main { padding: 0; max-width: none; }
+    .year-section { padding-left: 0; margin-bottom: 8pt; }
+    .year-section > .year-bar { position: static; width: auto; }
+    .year-section .year { position: static; color: #000; font-size: 14pt; padding: 6pt 0 2pt; }
+    .entry { background: none; border: none; border-bottom: 0.5pt solid #ccc; margin: 0; padding: 4pt 0; page-break-inside: avoid; }
+    .title a { color: #000; text-decoration: none; }
+    .venue { color: #444; }
+    .chip { background: transparent !important; color: #333 !important; border: 0.5pt solid #999; font-size: 7pt; }
+    .abstract-panel.open { display: block; background: none; color: #333; font-size: 9pt; border-left: 1.5pt solid #555; }
+    .year-section.hidden { display: block !important; }
+    .entry.hidden { display: block !important; }
   }
 </style>
 </head>
 <body>
-<div class="page">
 
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">☾ Dark</button>
 
-<header>
-  <p class="kicker">Complete Bibliography</p>
-  <h1>Harold Demsetz</h1>
-  <p class="dates">1930–2019</p>
-  <div class="legend">
-    <span class="legend-item"><span class="legend-chip" style="background:#1e3a5f"></span> Article</span>
-    <span class="legend-item"><span class="legend-chip" style="background:#3d2b1a"></span> Book</span>
-    <span class="legend-item"><span class="legend-chip" style="background:#1a3825"></span> Chapter</span>
-    <span class="legend-item"><span class="legend-chip" style="background:#4a3060"></span> Reply / Note / Review</span>
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-text">
+      <p class="kicker">Complete Bibliography</p>
+      <h1>Harold Demsetz</h1>
+      <p class="dates">1930–2019</p>
+      <div class="bio-block">
+        <p>Harold Demsetz made major contributions to the economics of property rights and to the economics of industrial organization. He also coined the term “the Nirvana approach.” Economists have altered it slightly but use it widely. Demsetz was one of the few top economists of his era to communicate almost entirely in words and not math. Demsetz also defended both economic freedom and civil liberties.</p>
+        <p><a class="bio-link" href="https://www.econlib.org/library/Enc/bios/Demsetz.html" target="_blank" rel="noopener">Full biography by David R. Henderson →</a></p>
+      </div>
+    </div>
+
+    <div class="impact-section" aria-label="Citation impact">
+      <div class="impact-chart">
+        <div class="chart-label">Citations per year · Google Scholar</div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="citationChart" role="img" aria-label="Line chart of citations per year from 1987 to 2025"></svg>
+          <div class="chart-tooltip" id="chartTooltip"></div>
+        </div>
+      </div>
+      <div class="impact-stats">
+        <div class="stat-card">
+          <div class="stat-value">92,380</div>
+          <div class="stat-label">Total citations</div>
+          <div class="stat-source">Google Scholar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">18,000+</div>
+          <div class="stat-label">Citations · Alchian &amp; Demsetz (1972)</div>
+          <div class="stat-source">Most cited paper</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">10</div>
+          <div class="stat-label">Papers cited 2,000+ times</div>
+          <div class="stat-source">Top decile</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4,106</div>
+          <div class="stat-label">Peak year citations</div>
+          <div class="stat-source">2020 — year after death</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <hr class="header-rule">
 </header>
 
-<div class="bio-block">
-  <p>Harold Demsetz made major contributions to the economics of property rights and to the economics of industrial organization. He also coined the term “the Nirvana approach.” Economists have altered it slightly but use it widely. Demsetz was one of the few top economists of his era to communicate almost entirely in words and not math. Demsetz also defended both economic freedom and civil liberties.</p>
-  <p>&nbsp;<a class="bio-link" href="https://www.econlib.org/library/Enc/bios/Demsetz.html" target="_blank" rel="noopener">Full biography by David R. Henderson →</a></p>
-</div>
+<div class="layout">
 
-<!-- ── Tabs ── -->
-<div class="tab-bar">
-  <button class="tab-btn active" data-tab="chrono">Chronological</button>
-  <button class="tab-btn" data-tab="thematic">Thematic</button>
-</div>
+<aside class="rail" aria-label="Search and filter">
+  <div class="rail-inner">
+    <div class="controls" id="chronoControls">
+      <div class="search-wrap">
+        <input type="text" id="search" placeholder="Search titles, venues, keywords…" autocomplete="off" aria-label="Search the bibliography">
+        <button class="search-clear" id="searchClear" title="Clear">×</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Type</span>
+        <div class="filter-row" id="typeFilters">
+          <button class="filter-btn active" data-type="all">All</button>
+          <button class="filter-btn" data-type="article">Article</button>
+          <button class="filter-btn" data-type="book">Book</button>
+          <button class="filter-btn" data-type="chapter">Chapter</button>
+          <button class="filter-btn" data-type="reply">Reply</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Era</span>
+        <div class="filter-row" id="decadeFilters">
+          <button class="filter-btn decade active" data-decade="all">All</button>
+          <button class="filter-btn decade" data-decade="1950s">1950s</button>
+          <button class="filter-btn decade" data-decade="1960s">1960s</button>
+          <button class="filter-btn decade" data-decade="1970s">1970s</button>
+          <button class="filter-btn decade" data-decade="1980s">1980s</button>
+          <button class="filter-btn decade" data-decade="1990s">1990s</button>
+          <button class="filter-btn decade" data-decade="2000s">2000s</button>
+          <button class="filter-btn decade" data-decade="2010s">2010s</button>
+        </div>
+      </div>
+      <div class="results-count" id="resultsCount"></div>
+    </div>
+  </div>
+</aside>
 
-<!-- ── Controls (chrono only) ── -->
-<div class="controls" id="chronoControls">
-  <div class="search-wrap">
-    <input type="text" id="search" placeholder="Search titles, venues, keywords…" autocomplete="off">
-    <button class="search-clear" id="searchClear" title="Clear">×</button>
-  </div>
-  <div class="filter-row" id="typeFilters">
-    <span style="font-family:'Inconsolata',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase;align-self:center;">Type</span>
-    <button class="filter-btn active" data-type="all">All</button>
-    <button class="filter-btn" data-type="article">Article</button>
-    <button class="filter-btn" data-type="book">Book</button>
-    <button class="filter-btn" data-type="chapter">Chapter</button>
-    <button class="filter-btn" data-type="reply">Reply</button>
-  </div>
-  <div class="filter-row" id="decadeFilters">
-    <span style="font-family:'Inconsolata',monospace;font-size:0.62rem;letter-spacing:0.08em;color:var(--mid);text-transform:uppercase;align-self:center;">Era</span>
-    <button class="filter-btn decade active" data-decade="all">All</button>
-    <button class="filter-btn decade" data-decade="1950s">1950s</button>
-    <button class="filter-btn decade" data-decade="1960s">1960s</button>
-    <button class="filter-btn decade" data-decade="1970s">1970s</button>
-    <button class="filter-btn decade" data-decade="1980s">1980s</button>
-    <button class="filter-btn decade" data-decade="1990s">1990s</button>
-    <button class="filter-btn decade" data-decade="2000s">2000s</button>
-    <button class="filter-btn decade" data-decade="2010s">2010s</button>
-  </div>
-  <div class="results-count" id="resultsCount"></div>
+<main class="main">
+
+<div class="legend">
+  <span class="legend-item"><span class="legend-chip article"></span> Article</span>
+  <span class="legend-item"><span class="legend-chip book"></span> Book</span>
+  <span class="legend-item"><span class="legend-chip chapter"></span> Chapter</span>
+  <span class="legend-item"><span class="legend-chip reply"></span> Reply / Note / Review</span>
 </div>
 
 <div class="chrono-view" id="chronoView">
@@ -2057,316 +2042,6 @@
 
 </div><!-- /chrono-view -->
 
-<!-- ════════════════════════════════════════
-     THEMATIC INDEX
-     ════════════════════════════════════════ -->
-<div class="thematic-index" id="thematicIndex">
-
-  <div class="theme-group">
-    <div class="theme-heading">Property Rights &amp; Institutions</div>
-
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/724917">The Exchange and Enforcement of Property Rights</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1964</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/724993">Some Aspects of Property Rights</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1966</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/1821637">Toward a Theory of Property Rights</a></div>
-        <div class="venue"><em>American Economic Review</em>, 1967 &nbsp;·&nbsp; AER Top 20</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/725027">The Private Production of Public Goods</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1970</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/2117138">The Property Right Paradigm</a></div>
-        <div class="venue">with Alchian &nbsp;·&nbsp; <em>Journal of Economic History</em>, 1973</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.1086/342028">Toward a Theory of Property Rights II</a></div>
-        <div class="venue"><em>Journal of Legal Studies</em>, 2002</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-  </div>
-
-  <div class="theme-group">
-    <div class="theme-heading">Theory of the Firm</div>
-
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/1815199">Production, Information Costs, and Economic Organization</a></div>
-        <div class="venue">with Alchian &nbsp;·&nbsp; <em>American Economic Review</em>, 1972</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/724091">Wealth Distribution and the Ownership of Rights</a></div>
-        <div class="venue"><em>Journal of Legal Studies</em>, 1972</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/725108">The Structure of Ownership and the Theory of the Firm</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1983</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/1833178">The Structure of Corporate Ownership: Causes and Consequences</a></div>
-        <div class="venue">with Lehn &nbsp;·&nbsp; <em>Journal of Political Economy</em>, 1985</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/765018">The Theory of the Firm Revisited</a></div>
-        <div class="venue"><em>Journal of Law, Economics, and Organization</em>, 1988</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.researchgate.net/publication/36808466_Ownership_Control_and_the_Firm_Vol_1">The Organization of Economic Activity, 2 vols.</a></div>
-        <div class="venue">Blackwell, 1988 &nbsp;·&nbsp; collected essays with intellectual autobiography</div>
-      </div>
-      <span class="chip book">Book</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/2950959">The Firm in Economic Theory: A Quiet Revolution</a></div>
-        <div class="venue"><em>American Economic Review</em>, 1997</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.1016/S0929-1199(01)00020-7">Ownership Structure and Corporate Performance</a></div>
-        <div class="venue">with Villalonga &nbsp;·&nbsp; <em>Journal of Corporate Finance</em>, 2001</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://econpapers.repec.org/bookchap/cupcbooks/9780521588652.htm">The Economics of the Business Firm: Seven Critical Commentaries</a></div>
-        <div class="venue">Cambridge University Press, 1995</div>
-      </div>
-      <span class="chip book">Book</span>
-    </div>
-  </div>
-
-  <div class="theme-group">
-    <div class="theme-heading">Industrial Organization &amp; Antitrust</div>
-
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/1826696">The Nature of Equilibrium in Monopolistic Competition</a></div>
-        <div class="venue"><em>Journal of Political Economy</em>, 1959</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.2307/1911285">The Effect of Consumer Experience on Brand Loyalty and the Structure of Market Demand</a></div>
-        <div class="venue"><em>Econometrica</em>, 1962</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.2307/2228300">The Welfare and Empirical Implications of Monopolistic Competition</a></div>
-        <div class="venue"><em>Economic Journal</em>, 1964</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/724822">Industry Structure, Market Rivalry, and Public Policy</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1973</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.researchgate.net/publication/248182928_Two_Systems_of_Belief_about_Monopoly">Two Systems of Belief about Monopoly</a></div>
-        <div class="venue">in <em>Industrial Concentration: The New Learning</em>, 1974</div>
-      </div>
-      <span class="chip chapter">Chapter</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/725174">Economics as a Guide to Antitrust Regulation</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1976</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/2352366">Accounting for Advertising as a Barrier to Entry</a></div>
-        <div class="venue"><em>Journal of Business</em>, 1979</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/1808574">Barriers to Entry</a></div>
-        <div class="venue"><em>American Economic Review</em>, 1982</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.researchgate.net/publication/4821693_Economics_Legal_and_Political_Dimensions_of_Competition">Economic, Legal, and Political Dimensions of Competition</a></div>
-        <div class="venue">North-Holland, 1982 &nbsp;·&nbsp; de Vries Lectures</div>
-      </div>
-      <span class="chip book">Book</span>
-    </div>
-  </div>
-
-  <div class="theme-group">
-    <div class="theme-heading">Regulation &amp; Competition for the Market</div>
-
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/724970">Why Regulate Utilities?</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1968</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.2307/1882244">The Cost of Transacting</a></div>
-        <div class="venue"><em>Quarterly Journal of Economics</em>, 1968</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/40842725">The Trust upon Which Antitrust Stands</a></div>
-        <div class="venue"><em>Antitrust Law Journal</em>, 1977</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.1111/j.1465-7295.1974.tb00980.x">Where Is the New Industrial State?</a></div>
-        <div class="venue"><em>Economic Inquiry</em>, 1974 &nbsp;·&nbsp; response to Galbraith</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.2307/795012">The Technostructure, Forty-Six Years Later</a></div>
-        <div class="venue">Review of Galbraith &nbsp;·&nbsp; <em>Yale Law Journal</em>, 1968</div>
-      </div>
-      <span class="chip reply">Review</span>
-    </div>
-  </div>
-
-  <div class="theme-group">
-    <div class="theme-heading">Externalities &amp; Market Failure</div>
-
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/724977">Information and Efficiency: Another Viewpoint</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 1969</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.1016/S0176-2680(96)00025-0">The Core Disagreement between Pigou, the Profession, and Coase</a></div>
-        <div class="venue"><em>European Journal of Political Economy</em>, 1996</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://lawweb.usc.edu/assets/docs/contribute/Demsetz.pdf">Fallacies in the Economic Doctrine of Externalities</a></div>
-        <div class="venue">Working paper, UCLA, 2009/2010</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.2202/1555-5879.1502">The Problem of Social Cost: What Problem?</a></div>
-        <div class="venue"><em>Review of Law &amp; Economics</em>, 2011</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.1086/664179">R. H. Coase and the Neoclassical Model of the Economic System</a></div>
-        <div class="venue"><em>Journal of Law and Economics</em>, 2011</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-  </div>
-
-  <div class="theme-group">
-    <div class="theme-heading">Methodology &amp; Intellectual Autobiography</div>
-    
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://doi.org/10.1111/j.1465-7295.1997.tb01890.x">The Primacy of Economics</a></div>
-        <div class="venue"><em>Economic Inquiry</em>, 1997 &nbsp;·&nbsp; Presidential Address</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.cambridge.org/core/books/from-economic-man-to-economic-system/3C82D0A7D728DDE8B8689EA3D3A73791">From Economic Man to Economic System</a></div>
-        <div class="venue">Cambridge University Press, 2008</div>
-      </div>
-      <span class="chip book">Book</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/40657721">Succeeding in Economics</a></div>
-        <div class="venue"><em>The American Economist</em>, 2008</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/2138595">George J. Stigler: Midcentury Neoclassicalist with a Passion to Quantify</a></div>
-        <div class="venue"><em>Journal of Political Economy</em>, 1993</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-    <div class="theme-entry">
-      <div>
-        <div class="title"><a href="https://www.jstor.org/stable/40750949">An Appreciation of Armen A. Alchian's Contribution to the Theory of the Firm</a></div>
-        <div class="venue"><em>JITE</em>, 1987</div>
-      </div>
-      <span class="chip article">Article</span>
-    </div>
-  </div>
-
-</div><!-- /thematic-index -->
-
 <!-- ── MEDIA ── -->
 <div class="media-section">
   <div class="year-bar"><span class="year">Media</span><span class="year-line"></span></div>
@@ -2390,54 +2065,27 @@
       </div>
     </a>
   </div>
+</div><!-- /media-section -->
 
-<!-- ── Impact section ── -->
-<div class="impact-section">
-  <div class="year-bar"><span class="year">Impact</span><span class="year-line"></span></div>
-
-  <div class="impact-layout">
-    <div class="impact-stats">
-      <div class="stat-card">
-        <div class="stat-value">92,380</div>
-        <div class="stat-label">Total citations</div>
-        <div class="stat-source">Google Scholar</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">18,000+</div>
-        <div class="stat-label">Citations · Alchian &amp; Demsetz (1972)</div>
-        <div class="stat-source">Most cited paper</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">10</div>
-        <div class="stat-label">Papers cited 2,000+ times</div>
-        <div class="stat-source">Top decile</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">4,106</div>
-        <div class="stat-label">Peak year citations</div>
-        <div class="stat-source">2020 — year after death</div>
-      </div>
-    </div>
-
-    <div class="impact-chart">
-      <div class="chart-label">Citations per year · Google Scholar</div>
-      <div class="chart-wrap" id="chartWrap">
-        <svg id="citationChart"></svg>
-        <div class="chart-tooltip" id="chartTooltip"></div>
-      </div>
-    </div>
-  </div>
-</div>
+</main>
+</div><!-- /layout -->
 
 <footer>
-  Sources: IDEAS/RePEC · EconPapers · ResearchGate · SSRN · JSTOR · Chicago Unbound · UNC Scholarship Repository · Wikipedia · Compiled June 2026.
+  <div class="footer-inner">
+    Sources: IDEAS/RePEC · EconPapers · ResearchGate · SSRN · JSTOR · Chicago Unbound · UNC Scholarship Repository · Wikipedia · Compiled June 2026.
+  </div>
 </footer>
-</div>
 
 <script>
 (function() {
 
-   // ── Citation chart ──
+  // ── Safe storage (some embedded previews block localStorage) ──
+  const store = {
+    get(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  // ── Citation chart ──
   const citData = [
     {y:1987,c:48},{y:1988,c:76},{y:1989,c:120},{y:1990,c:165},{y:1991,c:210},
     {y:1992,c:263},{y:1993,c:320},{y:1994,c:380},{y:1995,c:430},{y:1996,c:484},
@@ -2448,141 +2096,111 @@
     {y:2017,c:3402},{y:2018,c:3422},{y:2019,c:3553},{y:2020,c:4106},{y:2021,c:3483},
     {y:2022,c:3654},{y:2023,c:3455},{y:2024,c:3266},{y:2025,c:2979}
   ];
- 
+
   function drawChart() {
     const wrap = document.getElementById('chartWrap');
     const svg = document.getElementById('citationChart');
     const tooltip = document.getElementById('chartTooltip');
-    const W = wrap.clientWidth, H = 160;
-    const pad = { top: 12, right: 8, bottom: 24, left: 38 };
+    const W = wrap.clientWidth, H = wrap.clientHeight || 190;
+    if (!W) return;
+    const pad = { top: 14, right: 10, bottom: 24, left: 34 };
     const iW = W - pad.left - pad.right;
     const iH = H - pad.top - pad.bottom;
- 
+
     const maxC = Math.max(...citData.map(d => d.c));
     const minY = citData[0].y, maxY = citData[citData.length - 1].y;
     const deathYear = 2019;
- 
+
     const xScale = y => pad.left + ((y - minY) / (maxY - minY)) * iW;
     const yScale = c => pad.top + iH - (c / maxC) * iH;
- 
-    // Accent color from CSS var — read computed style
-    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#1e3a5f';
-    const mid = getComputedStyle(document.documentElement).getPropertyValue('--mid').trim() || '#6b6558';
-    const rule = getComputedStyle(document.documentElement).getPropertyValue('--rule').trim() || '#ccc8bd';
-    const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#1c1b18';
-    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f2efe8';
- 
-    // Build path
+
+    // Colours come from the chart container, so the chart matches whatever band it sits in
+    const cs = getComputedStyle(wrap);
+    const line = cs.getPropertyValue('--chart-line').trim() || '#f2efe8';
+    const text = cs.getPropertyValue('--chart-text').trim() || 'rgba(242,239,232,0.72)';
+    const grid = cs.getPropertyValue('--chart-grid').trim() || 'rgba(242,239,232,0.22)';
+    const font = 'Libre Baskerville, Baskerville, Georgia, serif';
+
     const points = citData.map(d => `${xScale(d.y)},${yScale(d.c)}`).join(' ');
     const areaPoints = `${xScale(minY)},${pad.top + iH} ` + points + ` ${xScale(maxY)},${pad.top + iH}`;
- 
-    // Y gridlines
+
     const ticks = [1000, 2000, 3000, 4000];
-    let gridLines = ticks.filter(t => t <= maxC).map(t =>
-      `<line x1="${pad.left}" y1="${yScale(t)}" x2="${pad.left + iW}" y2="${yScale(t)}"
-        stroke="${rule}" stroke-width="1"/>`
+    const gridLines = ticks.filter(t => t <= maxC).map(t =>
+      `<line x1="${pad.left}" y1="${yScale(t)}" x2="${pad.left + iW}" y2="${yScale(t)}" stroke="${grid}" stroke-width="1"/>`
     ).join('');
- 
-    // Y axis labels
-    let yLabels = ticks.filter(t => t <= maxC).map(t =>
-      `<text x="${pad.left - 5}" y="${yScale(t) + 4}" text-anchor="end"
-        font-family="monospace" font-size="8" fill="${mid}">${(t/1000).toFixed(0)}k</text>`
+
+    const yLabels = ticks.filter(t => t <= maxC).map(t =>
+      `<text x="${pad.left - 7}" y="${yScale(t) + 3.5}" text-anchor="end" font-family="${font}" font-size="9.5" fill="${text}">${(t/1000).toFixed(0)}k</text>`
     ).join('');
- 
-    // X axis labels — every 5 years
-    let xLabels = citData.filter(d => d.y % 5 === 0).map(d =>
-      `<text x="${xScale(d.y)}" y="${pad.top + iH + 14}" text-anchor="middle"
-        font-family="monospace" font-size="8" fill="${mid}">${d.y}</text>`
+
+    const xLabels = citData.filter(d => d.y % 5 === 0).map(d =>
+      `<text x="${xScale(d.y)}" y="${pad.top + iH + 16}" text-anchor="middle" font-family="${font}" font-size="9.5" fill="${text}">${d.y}</text>`
     ).join('');
- 
-    // Death line
+
     const dx = xScale(deathYear);
     const deathLine = `
-      <line x1="${dx}" y1="${pad.top}" x2="${dx}" y2="${pad.top + iH}"
-        stroke="${mid}" stroke-width="1" stroke-dasharray="3 3"/>
-      <text x="${dx + 3}" y="${pad.top + 9}" font-family="monospace" font-size="7.5" fill="${mid}">d. 2019</text>
+      <line x1="${dx}" y1="${pad.top}" x2="${dx}" y2="${pad.top + iH}" stroke="${text}" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="${dx - 4}" y="${pad.top + 4}" text-anchor="end" font-family="${font}" font-size="9.5" fill="${text}">d. 2019</text>
     `;
- 
-    // Invisible hit targets for tooltip
+
+    const peak = citData.reduce((a, b) => (b.c > a.c ? b : a));
+    const peakDot = `<circle cx="${xScale(peak.y)}" cy="${yScale(peak.c)}" r="3.5" fill="${line}"/>`;
+
     const hitRects = citData.map((d, i) => {
       const x = xScale(d.y);
       const barW = i < citData.length - 1 ? xScale(citData[i+1].y) - x : iW / citData.length;
-      return `<rect x="${x - barW/2}" y="${pad.top}" width="${barW}" height="${iH}"
-        fill="transparent"
-        data-year="${d.y}" data-count="${d.c.toLocaleString()}"
-        class="chart-hit"/>`;
+      return `<rect x="${x - barW/2}" y="${pad.top}" width="${barW}" height="${iH}" fill="transparent"
+        data-year="${d.y}" data-raw="${d.c}" data-count="${d.c.toLocaleString()}" class="chart-hit"/>`;
     }).join('');
- 
+
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = `
       ${gridLines}
-      <polyline points="${areaPoints}" fill="${accent}" opacity="0.12"/>
-      <polyline points="${points}" fill="none" stroke="${accent}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+      <polygon points="${areaPoints}" fill="${line}" opacity="0.16"/>
+      <polyline points="${points}" fill="none" stroke="${line}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
       ${deathLine}
+      ${peakDot}
       ${yLabels}
       ${xLabels}
       ${hitRects}
     `;
- 
-    // Tooltip
+
     svg.querySelectorAll('.chart-hit').forEach(rect => {
       rect.addEventListener('mousemove', e => {
         const svgRect = svg.getBoundingClientRect();
         const x = e.clientX - svgRect.left;
-        const y = parseFloat(rect.getAttribute('y'));
-        const year = rect.getAttribute('data-year');
-        const count = rect.getAttribute('data-count');
-        tooltip.textContent = `${year} · ${count} citations`;
+        tooltip.textContent = `${rect.getAttribute('data-year')} · ${rect.getAttribute('data-count')} citations`;
         tooltip.style.left = x + 'px';
-        tooltip.style.top = (yScale(parseInt(rect.getAttribute('data-count').replace(',',''))) - 6) + 'px';
+        tooltip.style.top = (yScale(parseInt(rect.getAttribute('data-raw'), 10)) - 8) + 'px';
         tooltip.style.opacity = '1';
       });
       rect.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
     });
   }
- 
+
   window.addEventListener('load', drawChart);
   window.addEventListener('resize', drawChart);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawChart);
 
   // ── Dark mode ──
   const toggle = document.getElementById('darkToggle');
-  const saved = localStorage.getItem('demsetz-theme');
-  if (saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); toggle.textContent = '☀ Light'; }
+  if (store.get('demsetz-theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    toggle.textContent = '☀ Light';
+  }
 
   toggle.addEventListener('click', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     if (isDark) {
       document.documentElement.removeAttribute('data-theme');
       toggle.textContent = '☾ Dark';
-      localStorage.setItem('demsetz-theme', 'light');
+      store.set('demsetz-theme', 'light');
     } else {
       document.documentElement.setAttribute('data-theme', 'dark');
       toggle.textContent = '☀ Light';
-      localStorage.setItem('demsetz-theme', 'dark');
+      store.set('demsetz-theme', 'dark');
     }
-  });
-
-  // ── Tabs ──
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const chronoView = document.getElementById('chronoView');
-  const chronoControls = document.getElementById('chronoControls');
-  const thematicIndex = document.getElementById('thematicIndex');
-
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tab = btn.dataset.tab;
-      if (tab === 'chrono') {
-        chronoView.classList.remove('hidden-view');
-        chronoControls.style.display = '';
-        thematicIndex.classList.remove('active');
-      } else {
-        chronoView.classList.add('hidden-view');
-        chronoControls.style.display = 'none';
-        thematicIndex.classList.add('active');
-      }
-    });
+    drawChart();
   });
 
   // ── State ──
@@ -2631,12 +2249,17 @@
         btn.classList.add('copied');
         setTimeout(() => { btn.textContent = 'Cite'; btn.classList.remove('copied'); }, 1800);
       };
-      navigator.clipboard.writeText(cite).then(doCopy).catch(() => {
+      const fallback = () => {
         const ta = document.createElement('textarea');
         ta.value = cite; ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta); ta.select(); document.execCommand('copy');
         document.body.removeChild(ta); doCopy();
-      });
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cite).then(doCopy).catch(fallback);
+      } else {
+        fallback();
+      }
     });
   });
 
